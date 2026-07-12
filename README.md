@@ -1,6 +1,6 @@
 # Cashflow
 
-A General Text app — a cashflow forecaster. Define recurring and one-off income/expense
+A General Text app, a cashflow forecaster. Define recurring and one-off income/expense
 items, project a running balance over a shared timeline, and overlay multiple scenarios to
 compare what-ifs. A port of an earlier standalone build onto General Text: no backend, all
 state is one synced file.
@@ -14,7 +14,7 @@ The app's only writable scope is its data folder, `_gtApps/cashflow/data/`, vers
 inside it under `data/v{major}/` (`v0` today, matching the `0.x` version in `gt.json`). On a
 breaking format change we'd bump the major and migrate ourselves (read `data/v{old}/`,
 transform, write `data/v{new}/`); the platform does not migrate for us. Paths passed to
-`window.gt` are **relative** to that data folder — the runtime maps `v0/...` to wherever the
+`window.gt` are **relative** to that data folder. The runtime maps `v0/...` to wherever the
 app is actually installed, so we never hardcode `_gtApps/cashflow/...`.
 
 The entire model is a single JSON file, `data/v0/cashflow.json`:
@@ -39,7 +39,7 @@ The entire model is a single JSON file, `data/v0/cashflow.json`:
 
 This is the same shape the previous standalone build exported, so files move between the two
 losslessly (Export writes it without the internal `version` field; Import accepts it plus the
-older legacy formats — a single-config `{ items, opening?, … }`, a localStorage dump, or a
+older legacy formats: a single-config `{ items, opening?, … }`, a localStorage dump, or a
 bare items array). `amount` may be a number or a string in imported data; the forecast engine
 coerces with `Number()` and we preserve whatever was stored so untouched items round-trip.
 
@@ -71,22 +71,22 @@ pnpm build      # tsc + vite build → dist/ (static, installable)
 pnpm preview    # serve the built app
 ```
 
-Cashflow talks to General Text through the platform-injected **`window.gt`** runtime — it
+Cashflow talks to General Text through the platform-injected **`window.gt`** runtime. It
 bundles no sync client and no yjs (see `src/gt.d.ts` for the typed surface it uses). In
 production General Text injects the runtime; for `pnpm dev` a tiny vite plugin
 (`vite.config.ts`) injects it from a General Text origin so the app runs standalone against a
 **local in-browser workspace** (IndexedDB + cross-tab sync), no account or server needed. A
-fresh local workspace is seeded from `src/lib/dev-seed.ts` (generic sample scenarios — no real
-figures) — inert under a real host (`window.gt.sync.isLocal` is false).
+fresh local workspace is seeded from `src/lib/dev-seed.ts` (generic sample scenarios, no real
+figures), and the seed is inert under a real host (`window.gt.sync.isLocal` is false).
 
 By default the dev runtime loads from `https://www.generaltext.org/__gt/runtime.js`. Running
 General Text locally? Point at it: `GT_ORIGIN=http://localhost:5173 pnpm dev`.
 
 Opened outside General Text (e.g. visiting the deployed URL directly), there's no injected
 `window.gt`, so the app renders a small landing screen (`src/components/MissingRuntime.tsx`)
-that links to a **`/demo`** route — its own URL (linkable, refreshable). The route installs a
-local, sample-data stand-in for `window.gt` (`src/lib/demo-runtime.ts`) — strings in memory,
-mirrored to `localStorage`, no network — so visitors can play with the app right there. The
+that links to a **`/demo`** route with its own URL (linkable, refreshable). The route installs a
+local, sample-data stand-in for `window.gt` (`src/lib/demo-runtime.ts`; strings in memory,
+mirrored to `localStorage`, no network) so visitors can play with the app right there. The
 app runs unchanged against it and shows a "Demo" badge. (Routing is plain History API in
 `main.tsx`; no router dependency.)
 
