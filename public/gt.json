@@ -1,0 +1,14 @@
+{
+  "name": "cashflow",
+  "displayName": "Cashflow",
+  "version": "0.0.2",
+  "gtApi": "^1.0",
+  "blurb": "Forecast your balance over time and compare what-if scenarios side by side.",
+  "icon": {
+    "kind": "svg",
+    "value": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 3v16a2 2 0 0 0 2 2h16'/><path d='m19 9-5 5-4-4-3 3'/></svg>"
+  },
+  "tags": ["finance", "budget", "forecast", "planning"],
+  "repository": "https://github.com/generaltext/cashflow",
+  "url": "https://cashflow.generaltext.org"
+}

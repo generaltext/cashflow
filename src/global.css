@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode: `dark:` utilities apply when `.dark` is on an ancestor
+   (we toggle it on <html>). Default (no class) is the light theme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overscroll-behavior: none;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #f5f5f5; /* neutral-100 — light default, prevents flash */
+}
+
+html.dark body {
+  background-color: #171717; /* neutral-900 */
+}
