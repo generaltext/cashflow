@@ -1,7 +1,7 @@
 {
   "name": "cashflow",
   "displayName": "Cashflow",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "gtApi": "^1.0",
   "blurb": "Forecast your balance over time and compare what-if scenarios side by side.",
   "icon": {

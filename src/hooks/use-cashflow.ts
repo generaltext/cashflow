@@ -31,6 +31,10 @@ function emptyDoc(): CashflowDoc {
  *  in a real workspace, and only ever seeds when it's empty. */
 async function maybeSeed() {
   const gt = window.gt
+  // Wait for the broker handshake: `mode`/`sync.isLocal` are their 'live'/false
+  // defaults until it lands (e.g. in a /demo/{slug} workspace, where the app frame
+  // attaches asynchronously), so checking too early would wrongly skip seeding.
+  await gt.ready
   if (gt.mode !== 'demo' && !gt.sync.isLocal) return
   // Gate on the data file specifically (not "any file"): the separate settings
   // file must never suppress seeding, and a user who emptied their scenarios in a
